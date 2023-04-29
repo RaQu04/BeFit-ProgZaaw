@@ -18,7 +18,7 @@ namespace BeFit.Models
         public int NumOfReps { get; set; }
         [Display(Name = "Session Id")]
         public int SessionId { get; set; }
-        public virtual Session Session { get; set; }
+        public virtual Session? Session { get; set; }
         public int ExerciseTypeId { get; set; }
         [Display(Name = "Exercise Type")]
         public virtual ExerciseType? ExerciseType { get; set; }

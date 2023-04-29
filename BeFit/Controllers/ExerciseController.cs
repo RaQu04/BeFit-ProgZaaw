@@ -49,7 +49,7 @@ namespace BeFit.Controllers
         // GET: Exercise/Create
         public IActionResult Create()
         {
-            ViewData["ExerciseTypeId"] = new SelectList(_context.ExerciseType, "Id", "Id");
+            ViewData["ExerciseTypeId"] = new SelectList(_context.ExerciseType, "Name", "Name");
             ViewData["SessionId"] = new SelectList(_context.Set<Session>(), "Id", "Id");
             return View();
         }
@@ -67,7 +67,7 @@ namespace BeFit.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ExerciseTypeId"] = new SelectList(_context.ExerciseType, "Id", "Id", exercise.ExerciseTypeId);
+            ViewData["ExerciseTypeId"] = new SelectList(_context.ExerciseType, "Name", "Name", exercise.ExerciseTypeId);
             ViewData["SessionId"] = new SelectList(_context.Set<Session>(), "Id", "Id", exercise.SessionId);
             return View(exercise);
         }

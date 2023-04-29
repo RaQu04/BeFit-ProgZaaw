@@ -4,44 +4,26 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.BestResult)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NumOfSesssion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ExerciseType)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.BestResult)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumOfSesssion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExerciseType.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+@{
+    ViewData["Title"] = "Statistics";
 }
-    </tbody>
+
+<h1>Statistics</h1>
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Count</th>
+        <th>Max Score</th>
+    </tr>
+    @foreach (var et in ViewBag.exerciseTypes)
+    {
+        <tr>
+            <td>@et.id</td>
+            <td>@et.name</td>
+            <td>@et.count</td>
+            <td>@et.score</td>
+        </tr>
+
+    }
 </table>

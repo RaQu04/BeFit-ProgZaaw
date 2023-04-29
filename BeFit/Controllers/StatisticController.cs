@@ -22,8 +22,18 @@ namespace BeFit.Controllers
         // GET: Statistic
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Statistic.Include(s => s.ExerciseType);
-            return View(await applicationDbContext.ToListAsync());
+            DateTime startDate = DateTime.Now.Subtract(TimeSpan.FromDays(28));
+            ViewBag.ExerciseTypes = _context.ExerciseType.Select(t => new {
+                id = t.Id,
+                name = t.Name,
+                count = (int?)_context.Exercise.Where(
+                    e => e.ExerciseTypeId == t.Id && DateTime.Compare(e.Session.Start, startDate) >= 0
+                    ).Count(),
+                score = (int?)_context.Exercise.Where(
+                    e => e.ExerciseTypeId == t.Id && DateTime.Compare(e.Session.Start, startDate) >= 0
+                    ).Select(e => e.NumOfReps * e.NumOfSessions * e.Weight).Max()
+            });
+            return View();
         }
 
         // GET: Statistic/Details/5
@@ -57,7 +67,7 @@ namespace BeFit.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,BestResult,NumOfSesssion,ExerciseTypeId")] Statistic statistic)
+        public async Task<IActionResult> Create([Bind("Id,BestResult,NumOfsession,ExerciseTypeId")] Statistic statistic)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +101,7 @@ namespace BeFit.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,BestResult,NumOfSesssion,ExerciseTypeId")] Statistic statistic)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,BestResult,NumOfsession,ExerciseTypeId")] Statistic statistic)
         {
             if (id != statistic.Id)
             {

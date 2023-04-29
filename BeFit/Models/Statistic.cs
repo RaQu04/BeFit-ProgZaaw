@@ -10,7 +10,7 @@ namespace BeFit.Models
         [Display(Name = "Best Result")]
         public float BestResult { get; set; }
         [Display(Name = "Number Of Sessions")]
-        public int NumOfSesssion { get; set; }
+        public int NumOfSession { get; set; }
         public int ExerciseTypeId { get; set; }
         [Display(Name = "Exercise Type")]
         public virtual ExerciseType? ExerciseType { get; set; }
