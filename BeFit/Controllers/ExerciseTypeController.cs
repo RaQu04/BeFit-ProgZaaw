@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BeFit.Data;
 using BeFit.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BeFit.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class ExerciseTypeController : Controller
     {
         private readonly ApplicationDbContext _context;
