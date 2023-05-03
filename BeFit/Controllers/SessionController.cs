@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BeFit.Data;
 using BeFit.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace BeFit.Controllers
 {
     public class SessionController : Controller
     {
         private readonly ApplicationDbContext _context;
+        public readonly UserManager<IdentityUser> _userManager;
 
-        public SessionController(ApplicationDbContext context)
+        public SessionController(ApplicationDbContext context, UserManager<IdentityUser> usermanager)
         {
             _context = context;
+            _userManager = usermanager;
         }
 
         // GET: Session
@@ -48,7 +52,7 @@ namespace BeFit.Controllers
         // GET: Session/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+            //ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
@@ -57,8 +61,18 @@ namespace BeFit.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Start,End,UserId")] Session session)
+        public async Task<IActionResult> Create([Bind("Id,Start,End")] SessionDTO sessionDTO)
         {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            var session = new Session
+            {
+                Id = sessionDTO.Id,
+                Start = sessionDTO.Start,
+                End = sessionDTO.End,
+                UserId = user.Id
+            };
+
             if (ModelState.IsValid)
             {
                 _context.Add(session);

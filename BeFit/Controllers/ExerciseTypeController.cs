@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace BeFit.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    
     public class ExerciseTypeController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -48,6 +48,7 @@ namespace BeFit.Controllers
         }
 
         // GET: ExerciseType/Create
+        [Authorize(Roles = "admin")]
         public IActionResult Create()
         {
             return View();
